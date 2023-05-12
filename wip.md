@@ -72,3 +72,62 @@ la mise en place d'une communication P2P sans serveur centralisé peut être plu
 Configuration des réflexions **STUN (Session Traversal Utilities for NAT)** : Les serveurs **STUN** aident à déterminer les adresses IP et les ports des clients depuis l'extérieur d'un réseau. Les clients peuvent interroger un serveur STUN pour obtenir leurs adresses publiques, ce qui est utile pour établir des connexions P2P.
 
 Ces techniques peuvent être mises en œuvre en utilisant des bibliothèques ou des frameworks WebRTC existants, tels que **SimpleWebRTC**, **PeerJS** ou **SkyWay**, qui fournissent des abstractions et des fonctionnalités pour gérer les problèmes
+
+[12/05]
+
+-   Changement de méthode, au lieu d'utiliser `socket.io`, j'utilise `PeerJS` qui est une librairie qui permet de créer des connexions peer to peer entre les clients. Lors du lancement de l'application, chaque client recois un id unique qui lui permet de se connecter à un autre client. Le but étant simplement de prouver la faisaibilité de la communication entre les clients, je me contente d'afficher l'id de chaque client, de le copier et de le coller dans l'autre client pour établir la connexion.
+
+```js
+const peer = new Peer();
+let g_conn;
+
+// Show this peer's ID.
+peer.on('open', id => {
+	console.log('ID: ' + id);
+});
+
+// Await connections from others
+peer.on('connection', conn => {
+	g_conn = conn;
+
+	conn.on('data', data => {
+		// Will print the message
+		console.log(data);
+	});
+});
+
+// Connect to a peer
+sendButton.addEventListener('click', () => {
+	const message = messageInput.value;
+	if (!message) return;
+
+	g_conn.send(message);
+});
+```
+
+Le serveur n'est la que pour servir la page html et les fichiers js.
+
+```js
+process.stdout.write('\033c');
+
+const express = require('express');
+const app = express();
+const { createServer } = require('http');
+
+const server = createServer(app);
+
+app.use(express.static('public'));
+
+app.get('/socket.io', (req, res) => {
+	res.sendFile('C:/Users/BenjaminN/OneDrive/Fac/M1/PJI/P2P-tchat/node_modules/socket.io/client-dist/socket.io.js');
+});
+
+app.get('/peer.js', (req, res) => {
+	res.sendFile('C:/Users/BenjaminN/OneDrive/Fac/M1/PJI/P2P-tchat/node_modules/peerjs/dist/peerjs.min.js');
+});
+
+const port = 8080;
+server.listen(port, () => {
+	console.log(`Server is listening on port ${port}`);
+});
+```
