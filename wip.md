@@ -75,7 +75,9 @@ Ces techniques peuvent être mises en œuvre en utilisant des bibliothèques ou 
 
 [12/05]
 
--   Changement de méthode, au lieu d'utiliser `socket.io`, j'utilise `PeerJS` qui est une librairie qui permet de créer des connexions peer to peer entre les clients. Lors du lancement de l'application, chaque client recois un id unique qui lui permet de se connecter à un autre client. Le but étant simplement de prouver la faisaibilité de la communication entre les clients, je me contente d'afficher l'id de chaque client, de le copier et de le coller dans l'autre client pour établir la connexion.
+Changement de méthode, au lieu d'utiliser `socket.io`, j'utilise `PeerJS` qui est une librairie qui permet de créer des connexions peer to peer entre les clients. Lors du lancement de l'application, chaque client reçois un id unique qui lui permet de se connecter à un autre client. Le but étant simplement de prouver la faisabilité de la communication entre les clients, je me contente d'afficher l'id de chaque client, de le copier et de le coller dans l'autre client pour établir la connexion. Une fois la connexion établie, les clients peuvent s'envoyer des messages.
+
+Cela n'a été testé que sur le réseau local, je ne sais pas si cela fonctionne sur internet.
 
 ```js
 const peer = new Peer();
@@ -131,3 +133,5 @@ server.listen(port, () => {
 	console.log(`Server is listening on port ${port}`);
 });
 ```
+
+![working demo](./repport/assets/PeerJS%20POC.png)
