@@ -139,3 +139,4 @@ server.listen(port, () => {
 ### Pistes à étudier
 
 -   COTURN : https://github.com/coturn/coturn
+-   Continuer avec socket.io. Possibilité de créer des `rooms` coté serveur et de communiquer cette room id aux clients. Les clients peuvent ensuite se connecter à cette room et communiquer entre eux sans passer par le serveur (à vérifier). Ou bien tenter de créer une connexion directe entre les clients en utilisant les adresses IP publiques des clients. (ws://ip:port). Il faudra surement utiliser un serveur STUN pour récupérer les adresses IP publiques des clients. Et trouver un moyen de définir un port de communication pour chaque client.
