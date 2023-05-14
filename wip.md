@@ -81,24 +81,48 @@ Cela n'a été testé que sur le réseau local, je ne sais pas si cela fonctionn
 
 ```js
 const peer = new Peer();
-let g_conn;
 
-// Show this peer's ID.
+let g_conn = null;
+
 peer.on('open', id => {
 	console.log('ID: ' + id);
 });
 
-// Await connections from others
 peer.on('connection', conn => {
-	g_conn = conn;
+	console.log('Connected to: ' + conn.peer);
 
-	conn.on('data', data => {
-		// Will print the message
-		console.log(data);
+	conn.on('open', () => {
+		console.log('Connection open');
+
+		conn.on('data', data => {
+			console.log('Received', data);
+		});
+
+		conn.send('Hello from the other side!');
 	});
 });
 
-// Connect to a peer
+const connectButton = document.querySelector('#connect');
+const peerIdInput = document.querySelector('#peer-id');
+
+connectButton.addEventListener('click', () => {
+	const peerId = peerIdInput.value;
+	if (!peerId) return;
+
+	g_conn = peer.connect(peerId);
+
+	g_conn.on('open', () => {
+		console.log('Connection open');
+
+		g_conn.on('data', data => {
+			console.log('Received', data);
+		});
+	});
+});
+
+const messageInput = document.querySelector('#message');
+const sendButton = document.querySelector('#send');
+
 sendButton.addEventListener('click', () => {
 	const message = messageInput.value;
 	if (!message) return;
@@ -140,3 +164,69 @@ server.listen(port, () => {
 
 -   COTURN : https://github.com/coturn/coturn
 -   Continuer avec socket.io. Possibilité de créer des `rooms` coté serveur et de communiquer cette room id aux clients. Les clients peuvent ensuite se connecter à cette room et communiquer entre eux sans passer par le serveur (à vérifier). Ou bien tenter de créer une connexion directe entre les clients en utilisant les adresses IP publiques des clients. (ws://ip:port). Il faudra surement utiliser un serveur STUN pour récupérer les adresses IP publiques des clients. Et trouver un moyen de définir un port de communication pour chaque client.
+
+[14/05]
+
+Avec `Socket.io` j'ai mis en places des "clients-servers". Autrement dit, chaque client héberge un serveur qui permet aux autres clients de se connecter à lui. Cela permet de contourner le problème de la communication entre les clients. Cependant, cela ne fonctionne que sur le réseau local.
+
+```js
+// app.js
+const express = require('express');
+const app = express();
+const { createServer } = require('http');
+
+const server = createServer(app);
+
+const port = parseInt(process.argv[2]) || 8080;
+server.listen(port, () => {
+	console.log(`Server is listening on port ${port}`);
+	require('./io')(server, port);
+});
+
+// io.js
+const { Server } = require('socket.io');
+
+module.exports = function (httpServer, port) {
+	const socketServer = new Server(httpServer);
+
+	// client running on port 8080
+	socketServer.on('connection', socket => {
+		console.log('Client connected');
+
+		socket.on('message', msg => {
+			console.log('Message:', msg);
+		});
+
+		socket.emit('message', 'Hello from 8080');
+	});
+
+	if (port === 8080) return;
+
+	// client running on port 8081
+	const socket = require('socket.io-client')(`http://192.168.1.21:8080`, {
+		transports: ['websocket'],
+	});
+
+	socket.on('connect_error', err => {
+		console.log('Connection error:', err);
+	});
+
+	socket.on('connect_timeout', err => {
+		console.log('Connection timeout:', err);
+	});
+
+	socket.on('connect', () => {
+		console.log('Connected to socket server');
+
+		socket.emit('message', 'Hello from 8081');
+
+		socket.on('message', msg => {
+			console.log('Message:', msg);
+		});
+	});
+};
+```
+
+![working demo](./repport/assets/Socket.io%20POC.png)
+
+Le fait de devoir faire tourner serveur rend l'utilisation dans un navigateur impossible.
