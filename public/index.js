@@ -1,49 +1,48 @@
-const peer = new Peer();
+let g_onlines = [];
+const onlineHtml = document.getElementById('online-list');
 
-let g_conn = null;
+let g_current_conn = null;
 
-peer.on('open', id => {
-	console.log('ID: ' + id);
-});
+function showOnline() {
+	// add new connected users
+	onlineHtml.innerHTML = '';
+	g_onlines.forEach(online => {
+		const li = document.createElement('li');
+		li.textContent = online.username;
+		li.dataset.id = online.id;
 
-peer.on('connection', conn => {
-	console.log('Connected to: ' + conn.peer);
+		li.addEventListener('click', async () => {
+			// start chatting
 
-	conn.on('open', () => {
-		console.log('Connection open');
+			g_current_conn?.close();
 
-		conn.on('data', data => {
-			console.log('Received', data);
+			g_current_conn = g_peer.connect(online.id);
+			g_connectedPeers.set(online.id, g_current_conn);
+
+			chatSection.removeAttribute('hidden');
 		});
 
-		conn.send('Hello from the other side!');
+		onlineHtml.appendChild(li);
 	});
+}
+
+chatForm.addEventListener('submit', event => {
+	event.preventDefault();
+
+	const message = chatInput.value;
+	chatInput.value = '';
+
+	const li = document.createElement('li');
+	li.textContent = `You: ${message}`;
+	chatHtml.appendChild(li);
+
+	g_current_conn.send(message);
 });
 
-const connectButton = document.querySelector('#connect');
-const peerIdInput = document.querySelector('#peer-id');
+async function main(username) {
+	setInterval(async () => {
+		g_onlines = await getOnline(username);
 
-connectButton.addEventListener('click', () => {
-	const peerId = peerIdInput.value;
-	if (!peerId) return;
-
-	g_conn = peer.connect(peerId);
-
-	g_conn.on('open', () => {
-		console.log('Connection open');
-
-		g_conn.on('data', data => {
-			console.log('Received', data);
-		});
-	});
-});
-
-const messageInput = document.querySelector('#message');
-const sendButton = document.querySelector('#send');
-
-sendButton.addEventListener('click', () => {
-	const message = messageInput.value;
-	if (!message) return;
-
-	g_conn.send(message);
-});
+		showOnline();
+	}, 1500);
+}

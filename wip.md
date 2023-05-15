@@ -230,3 +230,22 @@ module.exports = function (httpServer, port) {
 ![working demo](./repport/assets/Socket.io%20POC.png)
 
 Le fait de devoir faire tourner serveur rend l'utilisation dans un navigateur impossible.
+
+[15/05]
+
+En train de bosser sur une version plus poussée du tchat p2p avec WebRTC. J'ai réussi à faire fonctionner la communication entre les clients sur le réseau local. Je suis en train de bosser sur la communication sur internet. Pour cela, j'utilise un serveur STUN/TURN. J'ai trouvé un serveur STUN/TURN gratuit sur internet : https://github.com/coturn/coturn. Je vais devoir le configurer pour qu'il fonctionne avec mon application. Pour ce faire, je vais setup un container docker avec le serveur STUN/TURN sur mon VPS (https://coturn.benjamin-niddam.dev). Je vais ensuite configurer mon application pour qu'elle utilise ce serveur STUN/TURN.
+
+```js
+const iceConfiguration = {
+	iceServers: [
+		{
+			urls: 'turn:coturn.benjamin-niddam.dev:3478',
+			username: 'benjamin',
+			credential: 'coucou',
+		},
+	],
+};
+
+const peerConnection = new RTCPeerConnection(iceConfiguration);
+```
+
