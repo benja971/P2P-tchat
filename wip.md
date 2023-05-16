@@ -249,3 +249,6 @@ const iceConfiguration = {
 const peerConnection = new RTCPeerConnection(iceConfiguration);
 ```
 
+nat hole punching
+
+rfc turnstun

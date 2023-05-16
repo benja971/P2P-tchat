@@ -13,7 +13,6 @@ function showOnline() {
 
 		li.addEventListener('click', async () => {
 			// start chatting
-
 			g_current_conn?.close();
 
 			g_current_conn = g_peer.connect(online.id);
