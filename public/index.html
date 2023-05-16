@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- styles -->
+
+		<!-- libraries -->
+		<!-- <script src="/socket.io" defer></script> -->
+		<script src="/peer.js" defer></script>
+
+		<!-- scripts -->
+		<script src="./online.js" defer></script>
+		<script src="./access.js" defer></script>
+		<script src="./index.js" defer></script>
+
+		<title>PeerJs</title>
+	</head>
+	<body>
+		<section id="access">
+			<form id="access-form">
+				<input type="text" name="username" id="username" />
+				<input type="submit" value="Start chatting" id="access-submit" />
+			</form>
+		</section>
+
+		<section>
+			<ul id="online-list"></ul>
+			<main id="chat" hidden>
+				<ul id="messages"></ul>
+				<form id="chat-form">
+					<input type="text" name="message" id="message" />
+					<input type="submit" value="Send" id="chat-submit" />
+				</form>
+			</main>
+		</section>
+	</body>
+</html>
