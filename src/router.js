@@ -35,4 +35,9 @@ router.delete('/online/:peerId', (req, res) => {
 	res.sendStatus(204);
 });
 
+router.get('/turn-config', (_, res) => {
+	const config = require('./turn.conf.js');
+	res.json(config);
+});
+
 module.exports = router;

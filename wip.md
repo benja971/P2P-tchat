@@ -249,6 +249,68 @@ const iceConfiguration = {
 const peerConnection = new RTCPeerConnection(iceConfiguration);
 ```
 
-nat hole punching
+[17/05]
 
+nat hole punching
 rfc turnstun
+
+Je cherche encore et toujours à mettre en place une communication TCP "browser2browser". Mais il n'est pas possible de le faire entre des gens qui ne sont pas sur le même réseau. Peut être qu'il est possible de le faire avec un serveur STUN/TURN comme je l'ai fait avec WebRTC.
+
+Installation de COTURN sur le VPS
+
+[18/05]
+
+Création d'un `turnserver.conf` pour configurer le serveur TURN.
+
+```conf
+# /etc/turnserver.conf
+
+# STUN server port is 3478 for UDP and TCP, and 5349 for TLS.
+# Allow connection on the UDP port 3478
+listening-port=3478
+# and 5349 for TLS (secure)
+tls-listening-port=5349
+
+# Require authentication
+fingerprint
+lt-cred-mech
+
+# We will use the longterm authentication mechanism, but if
+# you want to use the auth-secret mechanism, comment lt-cred-mech and
+# uncomment use-auth-secret
+# Check: https://github.com/coturn/coturn/issues/180#issuecomment-364363272
+#The static auth secret needs to be changed, in this tutorial
+# we'll generate a token using OpenSSL
+# use-auth-secret
+# static-auth-secret=replace-this-secret
+# ----
+# If you decide to use use-auth-secret, After saving the changes, change the auth-secret using the following command:
+# sed -i "s/replace-this-secret/$(openssl rand -hex 32)/" /etc/turnserver.conf
+# This will replace the replace-this-secret text on the file with the generated token using openssl.
+
+# Specify the server name and the realm that will be used
+# if is your first time configuring, just use the domain as name
+server-name=benjamin-niddam.dev
+realm=benjamin-niddam.dev
+
+total-quota=100
+stale-nonce=600
+
+# Path to the SSL certificate and private key. In this example we will use
+# the letsencrypt generated certificate files.
+cert=/root/proxy/cert/benjamin-niddam.dev_ssl_certificate.cer
+pkey=/root/proxy/cert/_.benjamin-niddam.dev_private_key.key
+
+# Specify the allowed OpenSSL cipher list for TLS/DTLS connections
+cipher-list="ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384"
+
+# Specify the process user and group
+proc-user=turnserver
+proc-group=turnserver
+```
+
+Certificat SSL de benjamin-niddam.dev
+
+Au lancement, je regarde les logs du serveur TURN pour voir si tout se passe bien et je vois que le serveur TURN écoute sur le port 3478.
+
+![listening on port 3478](./repport/assets/coturn%20listening%203478.png)
