@@ -5,7 +5,8 @@
 	"main": "src/app.js",
 	"scripts": {
 		"start": "node src/app.js",
-		"dev": "nodemon src/app.js"
+		"dev": "nodemon src/app.js",
+		"prod": "pm2 start src/app.js --name p2p"
 	},
 	"keywords": [],
 	"author": "",
