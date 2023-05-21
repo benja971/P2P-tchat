@@ -14,7 +14,7 @@ accessForm.addEventListener('submit', async event => {
 
 	let config;
 	try {
-		const response = await fetch('/turn-config');
+		const response = await fetch('/api/turn-config');
 		config = await response.json();
 		console.log('config', config);
 	} catch (error) {
