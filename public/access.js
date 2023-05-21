@@ -9,11 +9,21 @@ const chatHtml = document.querySelector('#messages');
 let g_peer = null;
 const g_connectedPeers = new Map(); // string -> DataConnection
 
-accessForm.addEventListener('submit', event => {
+accessForm.addEventListener('submit', async event => {
 	event.preventDefault();
 
+	let config;
+	try {
+		const response = await fetch('/turn-config');
+		config = await response.json();
+		console.log('config', config);
+	} catch (error) {
+		console.error(error);
+		return;
+	}
+
 	const username = usernameInput.value;
-	g_peer = new Peer();
+	g_peer = new Peer(config);
 
 	accessForm.reset();
 	accessSection.setAttribute('hidden', '');
@@ -32,8 +42,6 @@ accessForm.addEventListener('submit', event => {
 		g_connectedPeers.set(conn.peer, conn);
 
 		conn.on('data', data => {
-			console.log('data', data);
-
 			const li = document.createElement('li');
 			const contact = g_onlines.find(online => online.id === conn.peer);
 			li.textContent = `${contact.username}: ${data}`;
