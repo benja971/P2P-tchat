@@ -6,7 +6,7 @@ const { createServer } = require('http');
 
 const server = createServer(app);
 
-const port = parseInt(process.argv[2]) || 8080;
+const port = 8003;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
