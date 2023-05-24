@@ -1,14 +1,41 @@
 const { Router } = require('express');
+const axios = require('axios');
+const fs = require('fs');
 
 const router = Router();
 
 const onlineMap = new Map(); // string -> string (id -> username)
 
-router.post('/online', (req, res) => {
+// coturn url at turn.benjamin-niddam.dev
+const turnUrl = 'https://turn.benjamin-niddam.dev';
+
+// auth options for coturn server
+const authOptions = {
+	auth: {
+		username: 'test',
+		password: 'test123',
+	},
+};
+
+// get turn config from coturn server
+const getTurnConfig = async () => {
+	const { data } = await axios.get(`${turnUrl}/api/turn`, authOptions);
+	return data;
+};
+
+router.post('/online', async (req, res) => {
 	const { peerId, username } = req.body;
 	onlineMap.set(peerId, username);
 
-	console.log('onlineMap', onlineMap);
+	getTurnConfig()
+		.then(turnConfig => {
+			// Handle the retrieved TURN configuration
+			console.log(turnConfig);
+		})
+		.catch(error => {
+			// Handle any errors that occurred during the request
+			console.error(error);
+		});
 
 	res.sendStatus(201);
 });
