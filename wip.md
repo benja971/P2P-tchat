@@ -314,3 +314,25 @@ Certificat SSL de benjamin-niddam.dev
 Au lancement, je regarde les logs du serveur TURN pour voir si tout se passe bien et je vois que le serveur TURN écoute sur le port 3478.
 
 ![listening on port 3478](./repport/assets/coturn%20listening%203478.png)
+
+[23/05]
+
+on cherche à mettre en place une solution de discussion p2p
+on se rend compte qu avec la configuration de l internet moderne 
+c est pas vraiment possible à cause des NATs
+
+c quoi le nat (
+	pourquoi
+	comment ca marche
+	en quoi ca nous bloque
+)
+
+Analyse d une solution de connection paire à paire malgré les NATs
+on choisi d utiliser COTURN (solution opensource utilisée par de nombreux services aujourd hui)
+c quoi coturn (objectifs, fonctionnement)
+en annexe mettre le process de setup de coturn
+avec les rfc apprendre à communiquer avec le serveur coturn
+pour continuer en mode manuel
+
+
+
