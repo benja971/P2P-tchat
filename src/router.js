@@ -1,6 +1,6 @@
 const { Router } = require('express');
-const axios = require('axios');
-const fs = require('fs');
+const { StunMessage, StunAttributeUsername, StunAttributeSoftware } = require('node-turn');
+const dgram = require('dgram');
 
 const router = Router();
 
@@ -17,25 +17,50 @@ const authOptions = {
 	},
 };
 
-// get turn config from coturn server
-const getTurnConfig = async () => {
-	const { data } = await axios.get(`${turnUrl}/api/turn`, authOptions);
-	return data;
-};
+const softwareKey = 'SOFTWARE';
 
 router.post('/online', async (req, res) => {
 	const { peerId, username } = req.body;
 	onlineMap.set(peerId, username);
 
-	getTurnConfig()
-		.then(turnConfig => {
-			// Handle the retrieved TURN configuration
-			console.log(turnConfig);
-		})
-		.catch(error => {
-			// Handle any errors that occurred during the request
-			console.error(error);
-		});
+	// init stun message
+	const stunMessage = new StunMessage();
+
+	// add username attribute
+	const usernameAttribute = new StunAttributeUsername(username);
+	stunMessage.addAttribute(usernameAttribute);
+
+	// add software attribute
+	const softwareAttribute = new StunAttributeSoftware(softwareKey, '1.0.0');
+	stunMessage.addAttribute(softwareAttribute);
+
+	// encode stun message
+	const stunMessageBuffer = stunMessage.toBuffer();
+
+	// init udp socket
+	const udpSocket = dgram.createSocket('udp4');
+
+	// send flux allocation request
+	udpSocket.send(stunMessageBuffer, 0, stunMessageBuffer.length, 3478, turnUrl, err => {
+		if (err) {
+			console.error(err);
+			udpSocket.close();
+			res.sendStatus(500);
+		}
+	});
+
+	// listen for flux allocation response
+	udpSocket.on('message', message => {
+		const stunMessage = StunMessage.fromBuffer(message);
+
+		const allocatedAddress = stunMessage.getAttribute(StunAttribute.AllocateAddress).value;
+		const allocatedIP = allocatedAddress.address;
+		const allocatedPort = allocatedAddress.port;
+
+		console.log({ allocatedIP, allocatedPort });
+
+		udpSocket.close();
+	});
 
 	res.sendStatus(201);
 });
