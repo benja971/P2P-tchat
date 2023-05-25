@@ -7,18 +7,15 @@ function showOnline() {
 	// add new connected users
 	onlineHtml.innerHTML = '';
 	g_onlines.forEach(online => {
+		console.log(online);
 		const li = document.createElement('li');
 		li.textContent = online.username;
-		li.dataset.id = online.id;
+		li.dataset.address = online.address;
 
 		li.addEventListener('click', async () => {
-			// start chatting
-			g_current_conn?.close();
+			const address = li.dataset.address;
 
-			g_current_conn = g_peer.connect(online.id);
-			g_connectedPeers.set(online.id, g_current_conn);
-
-			chatSection.removeAttribute('hidden');
+			// const socket =
 		});
 
 		onlineHtml.appendChild(li);

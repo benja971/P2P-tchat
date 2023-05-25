@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { StunMessage, StunAttributeUsername, StunAttributeSoftware } = require('node-turn');
+const stun = require('stun');
 const dgram = require('dgram');
 
 const router = Router();
@@ -7,7 +7,8 @@ const router = Router();
 const onlineMap = new Map(); // string -> string (id -> username)
 
 // coturn url at turn.benjamin-niddam.dev
-const turnUrl = 'https://turn.benjamin-niddam.dev';
+const turnUrl = 'turn.benjamin-niddam.dev';
+const turnPort = 3478;
 
 // auth options for coturn server
 const authOptions = {
@@ -20,49 +21,20 @@ const authOptions = {
 const softwareKey = 'SOFTWARE';
 
 router.post('/online', async (req, res) => {
-	const { peerId, username } = req.body;
-	onlineMap.set(peerId, username);
+	const { username } = req.body;
 
-	// init stun message
-	const stunMessage = new StunMessage();
+	try {
+		const stun_res = await stun.request(`${turnUrl}:${turnPort}`);
+		const { address, port } = stun_res.getXorAddress();
+		console.log(`STUN server address: ${address}:${port}`);
+		onlineMap.set(username, `${address}:${port}`);
+		console.log(onlineMap);
 
-	// add username attribute
-	const usernameAttribute = new StunAttributeUsername(username);
-	stunMessage.addAttribute(usernameAttribute);
-
-	// add software attribute
-	const softwareAttribute = new StunAttributeSoftware(softwareKey, '1.0.0');
-	stunMessage.addAttribute(softwareAttribute);
-
-	// encode stun message
-	const stunMessageBuffer = stunMessage.toBuffer();
-
-	// init udp socket
-	const udpSocket = dgram.createSocket('udp4');
-
-	// send flux allocation request
-	udpSocket.send(stunMessageBuffer, 0, stunMessageBuffer.length, 3478, turnUrl, err => {
-		if (err) {
-			console.error(err);
-			udpSocket.close();
-			res.sendStatus(500);
-		}
-	});
-
-	// listen for flux allocation response
-	udpSocket.on('message', message => {
-		const stunMessage = StunMessage.fromBuffer(message);
-
-		const allocatedAddress = stunMessage.getAttribute(StunAttribute.AllocateAddress).value;
-		const allocatedIP = allocatedAddress.address;
-		const allocatedPort = allocatedAddress.port;
-
-		console.log({ allocatedIP, allocatedPort });
-
-		udpSocket.close();
-	});
-
-	res.sendStatus(201);
+		res.status(201).send({ address, port });
+	} catch (err) {
+		console.log(err);
+		res.status(500).send(err);
+	}
 });
 
 router.get('/online', (req, res) => {
@@ -70,8 +42,8 @@ router.get('/online', (req, res) => {
 
 	// send a list of {id: username}
 	const onlineList = Array.from(onlineMap.entries())
-		.map(([id, username]) => {
-			return { id, username };
+		.map(([username, address]) => {
+			return { username, address };
 		})
 		.filter(online => online.username !== username);
 
@@ -81,9 +53,6 @@ router.get('/online', (req, res) => {
 router.delete('/online/:peerId', (req, res) => {
 	const { peerId } = req.params;
 	onlineMap.delete(peerId);
-
-	console.log('onlineMap', onlineMap);
-
 	res.sendStatus(204);
 });
 

@@ -14,7 +14,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 app.get('/peer.js', (_, res) => {
-	res.sendFile('C:/Users/BenjaminN/OneDrive/Fac/M1/PJI/P2P-tchat/node_modules/peerjs/dist/peerjs.min.js');
+	res.sendFile('/root/P2P-tchat/node_modules/peerjs/dist/peerjs.min.js');
+});
+
+app.get('/socket.io-client', (req, res) => {
+	res.sendFile('/root/P2P-tchat/node_modules/socket.io-client/dist/socket.io.min.js');
 });
 
 app.use('/api', require('./router'));

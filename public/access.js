@@ -28,28 +28,34 @@ accessForm.addEventListener('submit', async event => {
 	accessForm.reset();
 	accessSection.setAttribute('hidden', '');
 
-	g_peer.on('open', async peerId => {
-		await postOnline(peerId, username);
-		main(username);
+	const res = await postOnline(username);
+	const { address, port } = await res.json();
+	console.log({ address, port });
 
-		addEventListener('beforeunload', async () => {
-			await deleteOnline(peerId);
-			g_current_conn?.close();
-		});
-	});
+	main(username);
 
-	g_peer.on('connection', conn => {
-		g_connectedPeers.set(conn.peer, conn);
+	// g_peer.on('open', async peerId => {
+	// 	await postOnline(peerId, username);
+	// 	main(username);
 
-		conn.on('data', data => {
-			const li = document.createElement('li');
-			const contact = g_onlines.find(online => online.id === conn.peer);
-			li.textContent = `${contact.username}: ${data}`;
-			chatHtml.appendChild(li);
-		});
+	// 	addEventListener('beforeunload', async () => {
+	// 		await deleteOnline(peerId);
+	// 		g_current_conn?.close();
+	// 	});
+	// });
 
-		conn.on('close', () => {
-			g_connectedPeers.delete(conn.peer);
-		});
-	});
+	// g_peer.on('connection', conn => {
+	// 	g_connectedPeers.set(conn.peer, conn);
+
+	// 	conn.on('data', data => {
+	// 		const li = document.createElement('li');
+	// 		const contact = g_onlines.find(online => online.id === conn.peer);
+	// 		li.textContent = `${contact.username}: ${data}`;
+	// 		chatHtml.appendChild(li);
+	// 	});
+
+	// 	conn.on('close', () => {
+	// 		g_connectedPeers.delete(conn.peer);
+	// 	});
+	// });
 });

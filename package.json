@@ -12,12 +12,11 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"axios": "^1.4.0",
 		"express": "^4.18.2",
 		"node-turn": "^0.0.6",
 		"peerjs": "^1.4.7",
-		"socket.io": "^4.6.1",
-		"socket.io-client": "^4.6.1"
+		"socket.io-client": "^4.6.1",
+		"stun": "^2.1.0"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.22"

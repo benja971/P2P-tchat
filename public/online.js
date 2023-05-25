@@ -13,11 +13,11 @@ async function getOnline(username) {
 	return data;
 }
 
-async function postOnline(peerId, username) {
+async function postOnline(username) {
 	const response = await safeFetch('/online', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ peerId, username }),
+		body: JSON.stringify({ username }),
 	});
 	return response;
 }
