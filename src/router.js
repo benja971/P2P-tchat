@@ -1,6 +1,6 @@
 const { Router } = require('express');
-const stun = require('stun');
 const dgram = require('dgram');
+const net = require('net');
 
 const router = Router();
 
@@ -10,31 +10,14 @@ const onlineMap = new Map(); // string -> string (id -> username)
 const turnUrl = 'turn.benjamin-niddam.dev';
 const turnPort = 3478;
 
-// auth options for coturn server
-const authOptions = {
-	auth: {
-		username: 'test',
-		password: 'test123',
-	},
-};
-
-const softwareKey = 'SOFTWARE';
-
 router.post('/online', async (req, res) => {
 	const { username } = req.body;
 
-	try {
-		const stun_res = await stun.request(`${turnUrl}:${turnPort}`);
-		const { address, port } = stun_res.getXorAddress();
-		console.log(`STUN server address: ${address}:${port}`);
-		onlineMap.set(username, `${address}:${port}`);
-		console.log(onlineMap);
-
-		res.status(201).send({ address, port });
-	} catch (err) {
-		console.log(err);
-		res.status(500).send(err);
-	}
+	// connect to turn server
+	const socket = dgram.createSocket('udp4');
+	socket.connect(turnPort, turnUrl, () => {
+		console.log('connected to turn server');
+	});
 });
 
 router.get('/online', (req, res) => {

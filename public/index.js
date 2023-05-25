@@ -7,23 +7,12 @@ function showOnline() {
 	// add new connected users
 	onlineHtml.innerHTML = '';
 	g_onlines.forEach(online => {
-		console.log(online);
 		const li = document.createElement('li');
 		li.textContent = online.username;
 		li.dataset.address = online.address;
 
 		li.addEventListener('click', async () => {
-			const address = li.dataset.address;
-
-			const socket = io(address);
-			socket.on('connect', () => {
-				g_current_conn = socket;
-				console.log('connected');
-
-				socket.on('message', message => {
-					console.log(message);
-				});
-			});
+		
 		});
 
 		onlineHtml.appendChild(li);
@@ -46,7 +35,6 @@ chatForm.addEventListener('submit', event => {
 async function main(username) {
 	setInterval(async () => {
 		g_onlines = await getOnline(username);
-
 		showOnline();
 	}, 1500);
 }
