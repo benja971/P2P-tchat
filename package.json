@@ -6,17 +6,15 @@
 	"scripts": {
 		"start": "node src/app.js",
 		"dev": "nodemon src/app.js",
-		"prod": "pm2 start src/app.js --name p2p"
+		"prod": "pm2 start src/app.js --name p2p",
+		"update-git": "git reset --hard; git pull; pnpm i"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
 		"express": "^4.18.2",
-		"node-turn": "^0.0.6",
-		"peerjs": "^1.4.7",
-		"socket.io-client": "^4.6.1",
-		"stun": "^2.1.0"
+		"peerjs": "^1.4.7"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.22"
