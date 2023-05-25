@@ -15,7 +15,15 @@ function showOnline() {
 		li.addEventListener('click', async () => {
 			const address = li.dataset.address;
 
-			// const socket =
+			const socket = io(address);
+			socket.on('connect', () => {
+				g_current_conn = socket;
+				console.log('connected');
+
+				socket.on('message', message => {
+					console.log(message);
+				});
+			});
 		});
 
 		onlineHtml.appendChild(li);
