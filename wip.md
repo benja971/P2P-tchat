@@ -318,13 +318,13 @@ Au lancement, je regarde les logs du serveur TURN pour voir si tout se passe bie
 [23/05]
 
 on cherche à mettre en place une solution de discussion p2p
-on se rend compte qu avec la configuration de l internet moderne 
+on se rend compte qu avec la configuration de l internet moderne
 c est pas vraiment possible à cause des NATs
 
 c quoi le nat (
-	pourquoi
-	comment ca marche
-	en quoi ca nous bloque
+pourquoi
+comment ca marche
+en quoi ca nous bloque
 )
 
 Analyse d une solution de connection paire à paire malgré les NATs
@@ -334,5 +334,66 @@ en annexe mettre le process de setup de coturn
 avec les rfc apprendre à communiquer avec le serveur coturn
 pour continuer en mode manuel
 
+[27/05]
 
+avec la lib stun, j'ai pu récupérer le couple (address, port) des clients
 
+```js
+const stun = require('stun');
+const dgram = require('dgram');
+
+const turn = {
+	host: 'turn.benjamin-niddam.dev',
+	port: 3478,
+	creds: {
+		username: 'test',
+		password: 'test123',
+	},
+	transport: 'udp4',
+};
+
+function getClientMappedAddress() {
+	return new Promise((resolve, reject) => {
+		const socket = dgram.createSocket(turn.transport);
+
+		socket.on('error', err => {
+			reject(err);
+		});
+
+		socket.on('message', msg => {
+			const message = stun.decode(msg);
+
+			if (message.type === stun.constants.STUN_BINDING_RESPONSE) {
+				const { address, port } = message.getAddress();
+				resolve({ address, port });
+			}
+
+			socket.close();
+		});
+
+		socket.send(stun.encode(stun.createMessage(stun.constants.STUN_BINDING_REQUEST)), turn.port, turn.host);
+	});
+}
+
+module.exports = { getClientMappedAddress, constants: stun.constants };
+```
+
+[28/05]
+
+Tentative de connection de deux clients grace à leur address public et le port
+
+[30/05]
+Pour le rapport
+
+orienté packets avec wireShark
+orienté flux avec tcpdump
+orienté protocol en regardant le code source de la lit stun
+
+analyse de l'apprentissage de l'étude d'un protocole réseau
+
+analyse
+méthode scientifique
+possibilité de parler technique
+résultats ?
+
+fany lopez (se passer des datacenter quand c'est possible )
