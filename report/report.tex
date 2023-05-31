@@ -1,0 +1,35 @@
+\documentclass[a4paper, 12pt]{report}
+\usepackage[utf8]{inputenc} % UTF-8 encoding
+\usepackage[french]{babel} % Language support
+\usepackage[T1]{fontenc} % Times New Roman
+\usepackage{lmodern} % modern fonts
+\usepackage{geometry} % Page size
+\usepackage[hidelinks]{hyperref}
+\usepackage{graphicx} % Images
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{amsthm}
+\usepackage[]{algorithm2e}
+\usepackage{multicol}
+\usepackage{algorithmic}
+\usepackage{fancyhdr}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\begin{document}
+
+\include{coverpage.tex}
+
+\newpage
+
+\tableofcontents
+\newpage
+
+% TODO: Add your content here
+\include{part-1.tex}
+
+\end{document}

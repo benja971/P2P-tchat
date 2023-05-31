@@ -158,7 +158,7 @@ server.listen(port, () => {
 });
 ```
 
-![working demo](./repport/assets/PeerJS%20POC.png)
+![working demo](./report/assets/PeerJS%20POC.png)
 
 ### Pistes à étudier
 
@@ -227,7 +227,7 @@ module.exports = function (httpServer, port) {
 };
 ```
 
-![working demo](./repport/assets/Socket.io%20POC.png)
+![working demo](./report/assets/Socket.io%20POC.png)
 
 Le fait de devoir faire tourner serveur rend l'utilisation dans un navigateur impossible.
 
@@ -313,18 +313,18 @@ Certificat SSL de benjamin-niddam.dev
 
 Au lancement, je regarde les logs du serveur TURN pour voir si tout se passe bien et je vois que le serveur TURN écoute sur le port 3478.
 
-![listening on port 3478](./repport/assets/coturn%20listening%203478.png)
+![listening on port 3478](./report/assets/coturn%20listening%203478.png)
 
 [23/05]
 
 on cherche à mettre en place une solution de discussion p2p
-on se rend compte qu avec la configuration de l internet moderne 
+on se rend compte qu avec la configuration de l internet moderne
 c est pas vraiment possible à cause des NATs
 
 c quoi le nat (
-	pourquoi
-	comment ca marche
-	en quoi ca nous bloque
+pourquoi
+comment ca marche
+en quoi ca nous bloque
 )
 
 Analyse d une solution de connection paire à paire malgré les NATs
@@ -333,6 +333,3 @@ c quoi coturn (objectifs, fonctionnement)
 en annexe mettre le process de setup de coturn
 avec les rfc apprendre à communiquer avec le serveur coturn
 pour continuer en mode manuel
-
-
-
