@@ -1,58 +1,46 @@
-\chapter{Introduction}
+\chapter{Solutions existantes}
 
-\section{Contexte}
+Dans le domaine des communications réseaux pair à pair, plusieurs solutions ont déjà été développées pour établir une communication entre deux clients. 
+Dans cette partie, nous présenterons brièvement quelques-unes de ces solutions.
 
-\paragraph{}
+\section{Les technologies de communication Web}
 
-Dans le cadre du PJI (Projet Individuel) en fin de master 1, j'ai choisi de travailler sous la tutelle de monsieur LUXEY-BITRI sur le sujet des communications réseaux dites paire à paire.
-Avec peu de connaissances en réseaux, j'y ai vu l'occasion de découvrir un domaine qui m'était inconnu et de me confronter à un sujet de recherche pour l'instant peu exploré mais 
-avec un potentiel d'application très important. En effet, si aujourd'hui les communications réseaux sont majoritairement centralisées, on voit émerger de plus en plus de réseaux
-dits décentralisés. 
+Avec l'avènement du Web, de nouvelles technologies de communication ont émergé pour permettre des interactions directes entre les utilisateurs. Parmi celles-ci, nous pouvons citer les WebSockets et WebRTC.
 
-\paragraph{}
-
-Les réseaux pair à pair sont des réseaux informatiques dans lesquels chaque client est à la fois client et serveur. C'est à dire que chaque client peut à la fois envoyer et recevoir
-des données. Ces réseaux sont décentralisés, c'est à dire qu'il n'y a pas forcément de serveur central qui gère le stockage et la distribution des données. Les clients sont donc
-égaux entre eux et peuvent communiquer directement entre eux. 
+\subsection{WebSockets}
 
 \paragraph{}
-
-Les réseaux pair à pair sont utilisés dans de nombreux domaines. On peut citer par exemple les réseaux de partage de fichiers, les réseaux de jeux vidéos, les réseaux de communication
-entre objets connectés, etc. Avec mon encadrant nous avons choisi de nous intéresser à un type de réseau décentralisé particulier, les réseaux pair à pair dans un contexte de communication 
-textuelle temps réel. 
-
-
-\section{Problématique}
+Les WebSockets sont une technologie de communication bidirectionnelle qui permet aux navigateurs Web d'établir une connexion persistante avec un serveur. Contrairement aux requêtes HTTP traditionnelles, 
+qui suivent le modèle de requête-réponse, les WebSockets permettent une communication en temps réel, où les données peuvent être transmises dans les deux sens de manière asynchrone.
 
 \paragraph{}
+Les WebSockets sont largement utilisés dans les applications nécessitant une communication instantanée, telles que les chats en temps réel, les tableaux de bord de suivi des données en temps réel, 
+les jeux en ligne, etc. Ils offrent une latence réduite et une meilleure efficacité en éliminant le besoin de requêtes HTTP fréquentes pour récupérer les mises à jour des données.
 
-Quelles sont les solutions possible pour mettre en place une communication textuelle temps réel entre deux clients dans un réseau pair à pair ?
-
-\section{Objectifs}
-
-\paragraph{}
-
-L'objectif de ce projet est de mettre en place une communication textuelle temps réel entre deux clients dans un réseau pair à pair. Pour cela, nous allons étudier les différentes
-solutions existantes et les implémenter. Le but étant d'en apprendre d'avantage sur les réseaux pair à pair, comprendre leur fonctionnement et leurs limites.
-
-\section{Plan}
+\newpage
 
 \paragraph{}
+En utilisant les WebSockets, les clients peuvent établir une connexion directe avec un serveur WebSocket, et une fois la connexion établie, ils peuvent échanger des messages sous forme de flux de données. 
+Cette technologie permet une communication bidirectionnelle et simultanée, ce qui en fait une solution efficace pour la communication textuelle temps réel entre deux clients dans un réseau pair à pair.
 
-Dans un premier temps, afin de mieux comprendre le fonctionnement des réseaux pair à pair, nous allons étudier les différentes solutions existantes. Nous verrons qu'il existe
-deux types de réseaux pair à pair, les réseaux pair à pair structurés et les réseaux pair à pair non structurés. Nous étudierons les avantages et les inconvénients de chacun.
-Nous verrons également qu'il existe des solutions hybrides qui combinent les deux types de réseaux.
 
-\paragraph{}
-
-Dans un second temps, nous étudierons les différentes façons de mettre en place une communication textuelle temps réel entre deux clients dans un réseau pair à pair. Nous verrons
-qu'il existe plusieurs solutions possibles telles que l'utilisation de sockets, l'utilisation de WebRTC ou encore l'utilisation de WebSockets.
+\subsection{WebRTC}
 
 \paragraph{}
-Dans un troisième temps, présenterons la l'alternative avec WebRTC que nous avons implémenter. Nous expliquerons les raisons de ce choix et nous détaillerons l'implémentation de
-notre solution. Avant de tenter la réalisation de cette même solution via des sockets. Nous verrons dans cette partie les difficultés rencontrées, les solutions apportées et les
-limites de notre implémentation. 
+WebRTC (Web Real-Time Communication) est une technologie qui permet aux navigateurs Web d'établir des connexions peer-to-peer directes pour la communication audio, vidéo et de données en temps réel. 
+WebRTC utilise une combinaison de protocoles et de codecs pour faciliter la communication directe entre les navigateurs, sans passer par un serveur intermédiaire.
 
 \paragraph{}
-Enfin, nous conclurons sur les résultats obtenus et nous évoquerons les perspectives d'amélioration de notre solution.
+WebRTC a ouvert de nouvelles possibilités pour des applications telles que les appels audio et vidéo en temps réel, les conférences Web, les partages d'écran et bien plus encore. Il permet aux utilisateurs 
+d'interagir directement sans avoir à installer de plugins ou de logiciels tiers.
+
+\paragraph{}
+Dans le contexte de la communication textuelle temps réel dans un réseau pair à pair, WebRTC peut être utilisé pour établir une connexion directe entre deux clients, permettant ainsi une communication en temps réel. 
+Les clients peuvent échanger des messages textuels en utilisant la fonctionnalité de transfert de données offerte par WebRTC.
+
+\paragraph{}
+L'avantage de WebRTC réside dans sa capacité à établir des connexions directes entre les clients, ce qui réduit la latence et offre une expérience de communication plus fluide. Cependant, il convient de noter que 
+l'utilisation de WebRTC nécessite la mise en place de mécanismes de signalisation pour l'établissement de la connexion initiale entre les clients, ainsi que des aspects de sécurité pour protéger la confidentialité des données échangées.
+
+
 

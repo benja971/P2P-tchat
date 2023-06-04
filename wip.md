@@ -333,3 +333,71 @@ c quoi coturn (objectifs, fonctionnement)
 en annexe mettre le process de setup de coturn
 avec les rfc apprendre à communiquer avec le serveur coturn
 pour continuer en mode manuel
+
+[04/06]
+
+WebRTC
+
+```sequence
+Peer1 -> Signalization Server : share unique id
+Peer2 -> Signalization Server : share unique id
+
+Peer1 -> Signalization Server : ask for peer2 id
+Signalization Server -> Peer1: peer2 id
+Peer2 -> Signalization Server : ask for peer1 id
+Signalization Server -> Peer2: peer1 id
+
+Peer1 -> Peer2 : peer connection
+Peer2 -> Peer1 : peer cconnection
+
+Peer1 -> Peer2 : Message
+Peer2 -> Peer1 : Message
+```
+
+\subsection{Récupération de l'adresse IP publique du client}
+
+\paragraph{}
+Pour pouvoir établir une connexion entre deux pairs, il faut que chaque pair connaisse l'adresse IP publique ainsi que le port utilisé par l'autre pair. Mais avant cela, il faut que chaque pair récupère son adresse IP publique afin
+de la partager avec l'autre pair. Pour cela, il existe une solution (non unique) qui consiste à utiliser un service STUN qui permet de récupérer l'adresse IP publique du client ainsi qu'un port ouvert sur le pare-feu du client.
+
+\subsection{Partage des adresses IP entre les deux pairs}
+
+\paragraph{}
+Une fois ces informations récupérées, chaque pair doit partager son adresse IP publique ainsi que le port ouvert sur son pare-feu avec l'autre pair. Cela peut être réalisé par l'intermédiaire d'un serveur de signalisation
+ou d'un canal de communication préalablement établi, tel qu'un serveur centralisé ou un autre moyen de communication sécurisé.
+
+\subsection{Création d'une connexion entre les deux pairs}
+
+\paragraph{}
+Une fois que chaque pair dispose de l'adresse IP publique et du port ouvert sur le pare-feu de l'autre pair, ils peuvent utiliser ces informations pour établir une connexion directe entre eux.
+
+\subsection{Echange de données entre les deux pairs}
+
+\paragraph{}
+Une fois la connexion établie, les deux pairs peuvent s'échanger des données. Ces données peuvent être des messages textuels, des fichiers, des flux audio et vidéo, etc.
+(Dans notre cas, nous nous intéressons uniquement aux messages textuels.)
+
+Sockets
+
+```sequence
+
+Client1 -> STUN Server : ask public ip and port
+STUN Server -> Client1 : public ip and port
+Client1 -> Signalization Server : share public ip and port
+
+Client2 -> STUN Server : ask public ip and port
+STUN Server -> Client2 : public ip and port
+Client2 -> Signalization Server : share public ip and port
+
+Client1 -> Signalization Server : ask for client2 ip and port
+Signalization Server -> Client1 : client2 ip and port
+
+Client2 -> Signalization Server : ask for client1 ip and port
+Signalization Server -> Client2 : client1 ip and port
+
+Client1 -> Client2 : peer connection
+Client2 -> Client1 : peer connection
+
+Client1 -> Client2 : Message
+Client2 -> Client1 : Message
+```
