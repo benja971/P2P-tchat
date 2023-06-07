@@ -327,7 +327,7 @@ comment ca marche
 en quoi ca nous bloque
 )
 
-Analyse d une solution de connection paire à paire malgré les NATs
+Analyse d une solution de connection pair à pair malgré les NATs
 on choisi d utiliser COTURN (solution opensource utilisée par de nombreux services aujourd hui)
 c quoi coturn (objectifs, fonctionnement)
 en annexe mettre le process de setup de coturn

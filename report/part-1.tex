@@ -1,46 +1,73 @@
-\chapter{Solutions existantes}
-
-Dans le domaine des communications réseaux pair à pair, plusieurs solutions ont déjà été développées pour établir une communication entre deux clients. 
-Dans cette partie, nous présenterons brièvement quelques-unes de ces solutions.
-
-\section{Les technologies de communication Web}
-
-Avec l'avènement du Web, de nouvelles technologies de communication ont émergé pour permettre des interactions directes entre les utilisateurs. Parmi celles-ci, nous pouvons citer les WebSockets et WebRTC.
-
-\subsection{WebSockets}
+\chapter{Contexte et Motivation}
 
 \paragraph{}
-Les WebSockets sont une technologie de communication bidirectionnelle qui permet aux navigateurs Web d'établir une connexion persistante avec un serveur. Contrairement aux requêtes HTTP traditionnelles, 
-qui suivent le modèle de requête-réponse, les WebSockets permettent une communication en temps réel, où les données peuvent être transmises dans les deux sens de manière asynchrone.
+Dans le domaine des communications réseaux pair à pair, il est souvent nécessaire d'établir une communication directe entre deux clients. Cependant, certains défis se 
+posent lors de la mise en place d'une telle communication, notamment en présence de dispositifs de traduction d'adresses réseau (NAT) qui limitent la connectivité directe entre les clients.
+
+\section{Problèmes liés aux dispositifs de traduction d'adresses réseau (le NAT)}
 
 \paragraph{}
-Les WebSockets sont largement utilisés dans les applications nécessitant une communication instantanée, telles que les chats en temps réel, les tableaux de bord de suivi des données en temps réel, 
-les jeux en ligne, etc. Ils offrent une latence réduite et une meilleure efficacité en éliminant le besoin de requêtes HTTP fréquentes pour récupérer les mises à jour des données.
+Les dispositifs de traduction d'adresses réseau (NAT) sont couramment utilisés pour partager une seule adresse IP publique entre plusieurs appareils d'un réseau local. Les NAT 
+peuvent être trouvés dans de nombreux environnements, tels que les réseaux domestiques, les réseaux d'entreprises et même les réseaux mobiles.
+
+\paragraph{}
+Lorsqu'un client se trouve derrière un NAT, il reçoit une adresse IP privée non routable, qui n'est pas accessible depuis Internet. Cela rend difficile l'établissement 
+d'une communication directe avec d'autres clients qui se trouvent également derrière des NAT.
 
 \newpage
+\section{La nécessité d'un tiers pour faciliter la communication}
 
 \paragraph{}
-En utilisant les WebSockets, les clients peuvent établir une connexion directe avec un serveur WebSocket, et une fois la connexion établie, ils peuvent échanger des messages sous forme de flux de données. 
-Cette technologie permet une communication bidirectionnelle et simultanée, ce qui en fait une solution efficace pour la communication textuelle temps réel entre deux clients dans un réseau pair à pair.
-
-
-\subsection{WebRTC}
+Dans le contexte des communications pair à pair, il devient nécessaire d'avoir un tiers (un serveur intermédiaire) pour faciliter la communication entre les clients. 
+Ce tiers agit comme un relai en permettant aux clients de s'échanger des données même s'ils ne peuvent pas établir une connexion directe en raison des NAT.
 
 \paragraph{}
-WebRTC (Web Real-Time Communication) est une technologie qui permet aux navigateurs Web d'établir des connexions peer-to-peer directes pour la communication audio, vidéo et de données en temps réel. 
-WebRTC utilise une combinaison de protocoles et de codecs pour faciliter la communication directe entre les navigateurs, sans passer par un serveur intermédiaire.
+Le relai joue un rôle crucial en tant qu'entremetteur dans la communication entre les clients. Il permet aux clients de s'enregistrer et de découvrir les autres clients disponibles. 
+Lorsqu'un client souhaite établir une communication avec un autre client, le relai facilite l'établissement de la connexion en relayant les messages entre les clients.
+
+\section{Solutions existantes utilisant WebSockets et WebRTC}
 
 \paragraph{}
-WebRTC a ouvert de nouvelles possibilités pour des applications telles que les appels audio et vidéo en temps réel, les conférences Web, les partages d'écran et bien plus encore. Il permet aux utilisateurs 
-d'interagir directement sans avoir à installer de plugins ou de logiciels tiers.
+Dans ce contexte, différentes solutions ont été développées pour permettre une communication efficace entre les clients. Deux technologies largement utilisées sont les WebSockets et WebRTC.
 
 \paragraph{}
-Dans le contexte de la communication textuelle temps réel dans un réseau pair à pair, WebRTC peut être utilisé pour établir une connexion directe entre deux clients, permettant ainsi une communication en temps réel. 
-Les clients peuvent échanger des messages textuels en utilisant la fonctionnalité de transfert de données offerte par WebRTC.
+Les WebSockets offrent une communication bidirectionnelle et persistante entre un navigateur Web et un serveur WebSocket. Ils permettent une communication en temps réel, avec une latence 
+réduite et une meilleure efficacité par rapport aux requêtes HTTP traditionnelles.
 
 \paragraph{}
-L'avantage de WebRTC réside dans sa capacité à établir des connexions directes entre les clients, ce qui réduit la latence et offre une expérience de communication plus fluide. Cependant, il convient de noter que 
-l'utilisation de WebRTC nécessite la mise en place de mécanismes de signalisation pour l'établissement de la connexion initiale entre les clients, ainsi que des aspects de sécurité pour protéger la confidentialité des données échangées.
+WebRTC, quant à lui, permet une communication peer-to-peer directe entre les navigateurs Web. Il prend en charge la communication audio, vidéo et de données en temps réel. 
+WebRTC permet aux clients d'établir des connexions directes, contournant ainsi les NAT et réduisant la latence.
+
+\paragraph{}
+Ces technologies offrent des solutions puissantes pour la communication en temps réel dans un réseau pair à pair. Cependant, leur utilisation nécessite la mise en place de mécanismes de 
+signalisation et de relais pour l'établissement des connexions et la transmission des données entre les clients.
+
+
+\section{Architecture générale d'un système réseau avec NAT}
+
+Dans un système réseau avec dispositifs de traduction d'adresses réseau (NAT), l'architecture générale implique plusieurs composants qui interagissent pour permettre la communication entre les clients. 
+Voici les principaux composants et leur rôle :
+
+\textbf{Clients} : Les clients sont les dispositifs ou les applications qui souhaitent communiquer entre eux. Ils peuvent être des ordinateurs, des téléphones, des tablettes ou tout autre appareil 
+connecté au réseau. Les clients peuvent être situés derrière des NAT, ce qui limite leur capacité à établir une communication directe avec d'autres clients.
+
+\textbf{Serveur relai} : Le serveur relai agit en tant qu'entremetteur dans la communication entre les clients. Lorsqu'un client souhaite communiquer avec un autre client, il s'enregistre auprès 
+du serveur relai et communique ses informations de connexion. Le serveur relai joue un rôle clé dans la découverte des clients disponibles et facilite l'établissement de la communication en relayant les messages entre les clients.
+
+\textbf{Mécanisme de signalisation} : Le mécanisme de signalisation est utilisé pour l'échange d'informations entre les clients et le serveur relai. Il permet aux clients de s'enregistrer auprès du 
+serveur relai, de découvrir les autres clients disponibles et d'échanger les informations nécessaires pour établir une connexion. La signalisation peut se faire via des protocoles tels que le protocole 
+HTTP, les WebSockets ou d'autres protocoles personnalisés.
+
+\textbf{Mécanisme de traversée NAT} : Étant donné que les clients peuvent être situés derrière des NAT, un mécanisme de traversée NAT est nécessaire pour permettre l'établissement de la communication directe entre 
+les clients. Ce mécanisme utilise des techniques telles que le protocole de traversée NAT (NAT traversal protocol) ou les techniques de trous de poinçonnage (hole punching) pour contourner les limitations des NAT 
+et permettre aux clients de se connecter directement.
+
+\textbf{Protocoles de communication} : Une fois que la communication directe est établie entre les clients, les protocoles de communication tels que les WebSockets ou WebRTC peuvent être utilisés pour la 
+transmission des données. Ces protocoles permettent une communication bidirectionnelle en temps réel, avec une latence réduite et une efficacité améliorée par rapport aux protocoles traditionnels.
+
+En combinant ces composants et mécanismes, l'architecture générale d'un système réseau avec NAT permet aux clients de surmonter les limitations de connectivité causées par les dispositifs de 
+traduction d'adresses réseau. Cela permet aux clients de communiquer efficacement même s'ils sont situés derrière des NAT, en utilisant des serveurs relais et des mécanismes de signalisation et de traversée NAT appropriés.
+
 
 
 

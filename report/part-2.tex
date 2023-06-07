@@ -1,30 +1,25 @@
-\chapter{Comment mettre en place une connection paire à paire}
+\chapter{Comment mettre en place une connexion pair à pair}
 
 \section{Avec WebRTC}
 
-\paragraph{}
 L'utilisation de WebRTC est l'une des solutions possibles pour mettre en place une communication textuelle en temps réel entre deux clients dans un réseau pair à pair.
 Pour établir cette connexion, les étapes suivantes peuvent être suivies :
 
-\subsection{Initialisation d'une paire et récupération de son ID}
+\paragraph{Initialisation d'une pair et récupération de son ID}
 
-\paragraph{}
-Chaque client doit être initialisé en tant que paire et se voit attribuer un ID unique. Cet ID est utilisé pour identifier la paire et permettre à d'autres pairs de se connecter à elle.
+Chaque client doit être initialisé en tant que paire et se voit attribuer un ID unique. Cet ID est utilisé pour identifier le pair et permettre à d'autres pairs de s'y'connecter.
 
-\subsection{Partage des ID entre les deux pairs}
+\paragraph{Partage des ID entre les deux pairs}
 
-\paragraph{}
-Une fois que chaque paire a obtenu son ID, ces identifiants doivent être partagés entre les deux pairs afin qu'ils puissent s'identifier mutuellement lors de l'établissement de la connexion. 
+Une fois que chaque pair a obtenu son ID, ces identifiants doivent être partagés entre les deux pairs afin qu'ils puissent s'identifier mutuellement lors de l'établissement de la connexion. 
 Cela peut être réalisé par l'intermédiaire d'un serveur de signalisation ou d'un canal de communication préalablement établi, tel qu'un serveur centralisé ou un autre moyen de communication sécurisé.
 
-\subsection{Création d'une connexion entre les deux pairs}
+\paragraph{Création d'une connexion entre les deux pairs}
 
-\paragraph{}
-Une fois que chaque pair dispose de l'ID de l'autre, ils peuvent utiliser ce dernier pour établir une connexion directe entre eux. 
+Une fois que chaque pair dispose de l'ID de l'autre, ils peuvent utiliser ce dernier pour établir une connexion directe entre eux en utilisant le protocole WebRTC.
 
-\subsection{Echange de données entre les deux pairs}
+\paragraph{Echange de données entre les deux pairs}
 
-\paragraph{}
 Une fois la connexion établie, les deux pairs peuvent s'échanger des données. Ces données peuvent être des messages textuels, des fichiers, des flux audio et vidéo, etc. 
 (Dans notre cas, nous nous intéressons uniquement aux messages textuels.)
 
@@ -40,35 +35,31 @@ Une fois la connexion établie, les deux pairs peuvent s'échanger des données.
 
 \section{Avec WebSockets}
 
-\paragraph{}
 Une autre solution pour mettre en place une communication textuelle en temps réel entre deux clients dans un réseau pair à pair est d'utiliser les WebSockets.
 La principale difference avec WebRTC, c'est que les Sockets nécessitent la connaissance des adresses IP des deux pairs pour pouvoir établir une connexion entre eux.
 Pour établir cette connexion, les étapes suivantes peuvent être suivies :
 
-\subsection{Récupération de l'adresse IP publique du client}
+\paragraph{Récupération de l'adresse IP publique du client}
 
-\paragraph{}
 Pour pouvoir établir une connexion entre deux pairs, il faut que chaque pair connaisse l'adresse IP publique ainsi que le port utilisé par l'autre pair. Mais avant cela, il faut que chaque pair récupère son adresse IP publique afin
 de la partager avec l'autre pair. Pour cela, il existe une solution (non unique) qui consiste à utiliser un service STUN qui permet de récupérer l'adresse IP publique du client ainsi qu'un port ouvert sur le pare-feu du client.
 
-\subsection{Partage des adresses IP entre les deux pairs}
+\paragraph{Partage des adresses IP entre les deux pairs}
 
-\paragraph{}
 Une fois ces informations récupérées, chaque pair doit partager son adresse IP publique ainsi que le port ouvert sur son pare-feu avec l'autre pair. Cela peut être réalisé par l'intermédiaire d'un serveur de signalisation 
 ou d'un canal de communication préalablement établi, tel qu'un serveur centralisé ou un autre moyen de communication sécurisé.
 
-\subsection{Création d'une connexion entre les deux pairs}
+\paragraph{Création d'une connexion entre les deux pairs}
 
-\paragraph{}
 Une fois que chaque pair dispose de l'adresse IP publique et du port ouvert sur le pare-feu de l'autre pair, ils peuvent utiliser ces informations pour établir une connexion directe entre eux. 
 
-\subsection{Echange de données entre les deux pairs}
+\paragraph{Echange de données entre les deux pairs}
 
-\paragraph{}
 Une fois la connexion établie, les deux pairs peuvent s'échanger des données. Ces données peuvent être des messages textuels, des fichiers, des flux audio et vidéo, etc.
 (Dans notre cas, nous nous intéressons uniquement aux messages textuels.)
 
-\begin{figure}[h]
+\newpage
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.99\textwidth]{assets/socket_connection.png}
     \caption{Schéma de fonctionnement de WebSockets}
@@ -76,8 +67,9 @@ Une fois la connexion établie, les deux pairs peuvent s'échanger des données.
 \end{figure}
 
 
-\section{Les outils tiers nécessaires pour la communication pair à pair}
+\vspace{4cm}
 
+\section{Les outils tiers nécessaires pour la communication pair à pair}
 \subsection{Les serveurs de signalisation}
 
 \paragraph{}
@@ -100,7 +92,7 @@ fonctionnalités de signalisation pour faciliter l'établissement de connexions 
 Il est important de noter que les serveurs de signalisation ne sont généralement pas impliqués dans le transfert direct des données entre les clients. Ils jouent simplement un rôle de coordination pour permettre 
 l'établissement de la connexion initiale.
 
-
+\newpage
 \subsection{Les protocoles TURN et STUN}
 
 Pour faciliter les communications pair à pair, il est souvent nécessaire de prendre en compte les contraintes de réseau telles que les pare-feu et les NAT (Network Address Translation). Deux protocoles couramment utilisés pour résoudre ces 
@@ -125,25 +117,3 @@ notamment si vous utilisez un service cloud ou un fournisseur tiers pour héberg
 \paragraph{}
 En résumé, les protocoles TURN et STUN sont des outils importants pour faciliter les communications pair à pair lorsque les clients sont derrière des NAT restrictifs ou des pare-feu. Ils permettent de contourner les contraintes réseau et de 
 faciliter l'établissement de connexions directes ou le transfert des données via un serveur relais lorsque cela est nécessaire.
-
-
-\subsection{Les serveurs de relais}
-
-\paragraph{}
-Dans certains cas, il peut être nécessaire d'utiliser des serveurs de relais pour faciliter la communication pair à pair. Les serveurs de relais agissent comme des intermédiaires pour acheminer les données entre les 
-clients lorsque des connexions directes ne sont pas possibles en raison de restrictions de pare-feu, de problèmes de NAT (Network Address Translation) ou d'autres contraintes réseau.
-
-\paragraph{}
-Lorsqu'un client ne peut pas établir une connexion directe avec un autre client en raison de ces contraintes, il peut utiliser un serveur de relais pour envoyer ses données vers le serveur, qui les transférera ensuite au client destinataire.
-
-\paragraph{}
-Les serveurs de relais peuvent être mis en place de différentes manières. Certains services cloud proposent des serveurs de relais prêts à l'emploi, tandis que d'autres solutions nécessitent la configuration de serveurs dédiés pour le relais des données.
-
-\paragraph{}
-L'utilisation de serveurs de relais peut être bénéfique dans certains scénarios où les connexions directes entre les clients ne sont pas possibles. Cependant, cela introduit généralement une surcharge supplémentaire et peut augmenter la latence de la communication.
-
-\paragraph{}
-En étudiant ces outils tiers nécessaires pour la communication pair à pair, nous pourrons mieux comprendre comment ils peuvent être intégrés dans notre solution de communication textuelle temps réel. Cela nous permettra d'explorer les fonctionnalités, 
-les avantages et les limites de chaque outil, et d'évaluer leur pertinence pour notre projet.
-
-
