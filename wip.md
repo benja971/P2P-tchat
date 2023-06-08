@@ -339,16 +339,16 @@ pour continuer en mode manuel
 WebRTC
 
 ```sequence
-Peer1 -> Signalization Server : share unique id
-Peer2 -> Signalization Server : share unique id
+Peer1 -> Signalization Server : share UUID
+Peer2 -> Signalization Server : share UUID
 
-Peer1 -> Signalization Server : ask for peer2 id
-Signalization Server -> Peer1: peer2 id
-Peer2 -> Signalization Server : ask for peer1 id
-Signalization Server -> Peer2: peer1 id
+Peer1 -> Signalization Server : ask for peer2 UUID
+Signalization Server -> Peer1: peer2 UUID
+Peer2 -> Signalization Server : ask for peer1 UUID
+Signalization Server -> Peer2: peer1 UUID
 
 Peer1 -> Peer2 : peer connection
-Peer2 -> Peer1 : peer cconnection
+Peer2 -> Peer1 : peer connection
 
 Peer1 -> Peer2 : Message
 Peer2 -> Peer1 : Message
@@ -401,3 +401,11 @@ Client2 -> Client1 : peer connection
 Client1 -> Client2 : Message
 Client2 -> Client1 : Message
 ```
+
+Replace id by UUID in webrtc
+
+sur le sequence webrtc U qi pour la flèche qui passe sur le signalisation server si la flèche ne s'y arrête pas
+
+tcheck orthographe
+
+varier le mot "pair" avec "noeud" ?

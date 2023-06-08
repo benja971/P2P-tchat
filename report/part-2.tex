@@ -7,62 +7,56 @@ Pour établir cette connexion, les étapes suivantes peuvent être suivies :
 
 \paragraph{Initialisation d'une pair et récupération de son ID}
 
-Chaque client doit être initialisé en tant que paire et se voit attribuer un ID unique. Cet ID est utilisé pour identifier le pair et permettre à d'autres pairs de s'y'connecter.
+Chaque client doit être initialisé en tant que pair et se voit attribuer un ID unique. Cet ID est utilisé pour l'identifier et permettre à d'autres de s'y'connecter.
 
 \paragraph{Partage des ID entre les deux pairs}
 
-Une fois que chaque pair a obtenu son ID, ces identifiants doivent être partagés entre les deux pairs afin qu'ils puissent s'identifier mutuellement lors de l'établissement de la connexion. 
+Une fois que chaque noeuds a obtenu son ID, ces identifiants doivent être partagés entre les deux clients afin qu'ils puissent s'identifier mutuellement lors de l'établissement de la connexion. 
 Cela peut être réalisé par l'intermédiaire d'un serveur de signalisation ou d'un canal de communication préalablement établi, tel qu'un serveur centralisé ou un autre moyen de communication sécurisé.
 
 \paragraph{Création d'une connexion entre les deux pairs}
 
-Une fois que chaque pair dispose de l'ID de l'autre, ils peuvent utiliser ce dernier pour établir une connexion directe entre eux en utilisant le protocole WebRTC.
-
-\paragraph{Echange de données entre les deux pairs}
-
-Une fois la connexion établie, les deux pairs peuvent s'échanger des données. Ces données peuvent être des messages textuels, des fichiers, des flux audio et vidéo, etc. 
-(Dans notre cas, nous nous intéressons uniquement aux messages textuels.)
+Une fois que chaque pair dispose de l'ID de l'autre, ils peuvent utiliser ce dernier pour établir une connexion directe entre eux en utilisant le protocole WebRTC. Ce dernier permet aux clients d'établir des connexions directes,
+contournant ainsi les NAT et réduisant la latence. Le tou grace à l'utilisation de protocoles de traversée NAT (NAT traversal protocol) ou les techniques de trous de poinçonnage (hole punching) pour contourner les limitations des NAT.
 
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{assets/webrtc_connection.png}
-    \caption{Schéma de fonctionnement de WebRTC}
+    \includegraphics[width=0.9\textwidth]{assets/webrtc.png}
+    \caption{Schéma de connection avec WebRTC}
     \label{fig:webrtc}
 \end{figure}
 
-\newpage 
+\newpage
 
 \section{Avec WebSockets}
 
-Une autre solution pour mettre en place une communication textuelle en temps réel entre deux clients dans un réseau pair à pair est d'utiliser les WebSockets.
-La principale difference avec WebRTC, c'est que les Sockets nécessitent la connaissance des adresses IP des deux pairs pour pouvoir établir une connexion entre eux.
+Une autre solution pour mettre en place une communication textuelle en temps réel entre deux clients serait d'utiliser les WebSockets.
+La principale difference avec WebRTC, c'est que les Sockets nécessitent la connaissance des adresses IP des deux noeuds pour pouvoir établir une connexion entre eux.
 Pour établir cette connexion, les étapes suivantes peuvent être suivies :
+
+\newpage
 
 \paragraph{Récupération de l'adresse IP publique du client}
 
-Pour pouvoir établir une connexion entre deux pairs, il faut que chaque pair connaisse l'adresse IP publique ainsi que le port utilisé par l'autre pair. Mais avant cela, il faut que chaque pair récupère son adresse IP publique afin
-de la partager avec l'autre pair. Pour cela, il existe une solution (non unique) qui consiste à utiliser un service STUN qui permet de récupérer l'adresse IP publique du client ainsi qu'un port ouvert sur le pare-feu du client.
+Pour pouvoir établir une connexion entre deux clients, il faut que chaque client connaisse l'adresse IP publique ainsi que le port utilisé par l'autre. Mais avant cela, ils doivent donc récupérer leurs adresses IP publique afin
+de les partager. Pour cela, il existe une solution (non unique) qui consiste à utiliser un service STUN qui permet de récupérer l'adresse IP publique du client ainsi qu'un port ouvert sur le pare-feu du client.
 
-\paragraph{Partage des adresses IP entre les deux pairs}
+\paragraph{Partager son adresse IP publique et le port ouvert sur le pare-feu avec l'autre pair}
 
-Une fois ces informations récupérées, chaque pair doit partager son adresse IP publique ainsi que le port ouvert sur son pare-feu avec l'autre pair. Cela peut être réalisé par l'intermédiaire d'un serveur de signalisation 
+Une fois ces informations récupérées, chaque pair doit partager son adresse IP publique ainsi que le port ouvert sur son pare-feu avec l'autre. Cela peut être réalisé par l'intermédiaire d'un serveur de signalisation 
 ou d'un canal de communication préalablement établi, tel qu'un serveur centralisé ou un autre moyen de communication sécurisé.
 
 \paragraph{Création d'une connexion entre les deux pairs}
 
 Une fois que chaque pair dispose de l'adresse IP publique et du port ouvert sur le pare-feu de l'autre pair, ils peuvent utiliser ces informations pour établir une connexion directe entre eux. 
 
-\paragraph{Echange de données entre les deux pairs}
-
-Une fois la connexion établie, les deux pairs peuvent s'échanger des données. Ces données peuvent être des messages textuels, des fichiers, des flux audio et vidéo, etc.
-(Dans notre cas, nous nous intéressons uniquement aux messages textuels.)
 
 \newpage
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.99\textwidth]{assets/socket_connection.png}
-    \caption{Schéma de fonctionnement de WebSockets}
+    \includegraphics[width=0.99\textwidth]{assets/socket.png}
+    \caption{Schéma de connection avec WebSockets}
     \label{fig:websockets}
 \end{figure}
 
@@ -73,8 +67,8 @@ Une fois la connexion établie, les deux pairs peuvent s'échanger des données.
 \subsection{Les serveurs de signalisation}
 
 \paragraph{}
-Pour établir une communication pair à pair entre deux clients, il est souvent nécessaire de mettre en place des serveurs de signalisation. Les serveurs de signalisation agissent comme des intermédiaires pour faciliter 
-l'établissement de la connexion initiale entre les clients.
+Pour établir une communication entre deux clients, il est souvent nécessaire de mettre en place des serveurs de signalisation. Les serveurs de signalisation agissent comme des intermédiaires pour faciliter 
+l'établissement de la connexion initiale.
 
 \paragraph{}
 Lorsqu'un client souhaite établir une communication avec un autre client, il doit d'abord échanger des informations telles que les adresses IP et les ports. Les serveurs de signalisation permettent aux clients de partager ces 
@@ -103,11 +97,11 @@ Le protocole STUN permet à un client d'obtenir des informations sur son adresse
 connexion en conséquence. STUN est généralement utilisé pour faciliter l'établissement de connexions pair à pair lorsque les clients sont derrière des NAT symétriques ou des pare-feu restrictifs.
 
 \paragraph{}
-Le protocole TURN est utilisé lorsque les connexions pair à pair directes ne sont pas possibles en raison de pare-feu ou de NAT restrictifs. TURN utilise un serveur intermédiaire (relais) auquel les clients se connectent pour acheminer 
+Le protocole TURN est utilisé lorsque les connexions directes ne sont pas possibles en raison de pare-feu ou de NAT restrictifs. TURN utilise un serveur intermédiaire (relais) auquel les clients se connectent pour acheminer 
 leurs données. Ce serveur intermédiaire agit comme un proxy et transfère les données entre les clients. Cela permet aux clients de communiquer même s'ils ne peuvent pas établir une connexion directe.
 
 \paragraph{}
-Lorsqu'un client rencontre des difficultés pour établir une connexion pair à pair directe en raison des restrictions du réseau, il peut utiliser STUN pour obtenir son adresse IP publique, puis essayer d'établir une connexion directe. 
+Lorsqu'un client rencontre des difficultés pour établir une connexion directe en raison des restrictions du réseau, il peut utiliser STUN pour obtenir son adresse IP publique, puis essayer d'établir une connexion directe. 
 Si cela échoue, le client peut passer à l'utilisation de TURN pour acheminer les données via un serveur relais.
 
 \paragraph{}
@@ -115,5 +109,5 @@ Il est important de noter que l'utilisation de TURN peut entraîner une latence 
 notamment si vous utilisez un service cloud ou un fournisseur tiers pour héberger le serveur.
 
 \paragraph{}
-En résumé, les protocoles TURN et STUN sont des outils importants pour faciliter les communications pair à pair lorsque les clients sont derrière des NAT restrictifs ou des pare-feu. Ils permettent de contourner les contraintes réseau et de 
+En résumé, les protocoles TURN et STUN sont des outils importants pour faciliter les communications lorsque les clients sont derrière des NAT restrictifs ou des pare-feu. Ils permettent de contourner les contraintes réseau et de 
 faciliter l'établissement de connexions directes ou le transfert des données via un serveur relais lorsque cela est nécessaire.

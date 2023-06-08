@@ -48,23 +48,29 @@ signalisation et de relais pour l'établissement des connexions et la transmissi
 Dans un système réseau avec dispositifs de traduction d'adresses réseau (NAT), l'architecture générale implique plusieurs composants qui interagissent pour permettre la communication entre les clients. 
 Voici les principaux composants et leur rôle :
 
+\paragraph{}
 \textbf{Clients} : Les clients sont les dispositifs ou les applications qui souhaitent communiquer entre eux. Ils peuvent être des ordinateurs, des téléphones, des tablettes ou tout autre appareil 
-connecté au réseau. Les clients peuvent être situés derrière des NAT, ce qui limite leur capacité à établir une communication directe avec d'autres clients.
+connecté au réseau. Les clients peuvent être situés derrière des NAT, ce qui limite leur capacité à établir une communication directe avec d'autres clients. 
 
+\paragraph{}
 \textbf{Serveur relai} : Le serveur relai agit en tant qu'entremetteur dans la communication entre les clients. Lorsqu'un client souhaite communiquer avec un autre client, il s'enregistre auprès 
 du serveur relai et communique ses informations de connexion. Le serveur relai joue un rôle clé dans la découverte des clients disponibles et facilite l'établissement de la communication en relayant les messages entre les clients.
 
+\paragraph{}
 \textbf{Mécanisme de signalisation} : Le mécanisme de signalisation est utilisé pour l'échange d'informations entre les clients et le serveur relai. Il permet aux clients de s'enregistrer auprès du 
 serveur relai, de découvrir les autres clients disponibles et d'échanger les informations nécessaires pour établir une connexion. La signalisation peut se faire via des protocoles tels que le protocole 
 HTTP, les WebSockets ou d'autres protocoles personnalisés.
 
+\paragraph{}
 \textbf{Mécanisme de traversée NAT} : Étant donné que les clients peuvent être situés derrière des NAT, un mécanisme de traversée NAT est nécessaire pour permettre l'établissement de la communication directe entre 
 les clients. Ce mécanisme utilise des techniques telles que le protocole de traversée NAT (NAT traversal protocol) ou les techniques de trous de poinçonnage (hole punching) pour contourner les limitations des NAT 
 et permettre aux clients de se connecter directement.
 
+\paragraph{}
 \textbf{Protocoles de communication} : Une fois que la communication directe est établie entre les clients, les protocoles de communication tels que les WebSockets ou WebRTC peuvent être utilisés pour la 
 transmission des données. Ces protocoles permettent une communication bidirectionnelle en temps réel, avec une latence réduite et une efficacité améliorée par rapport aux protocoles traditionnels.
 
+\paragraph{}
 En combinant ces composants et mécanismes, l'architecture générale d'un système réseau avec NAT permet aux clients de surmonter les limitations de connectivité causées par les dispositifs de 
 traduction d'adresses réseau. Cela permet aux clients de communiquer efficacement même s'ils sont situés derrière des NAT, en utilisant des serveurs relais et des mécanismes de signalisation et de traversée NAT appropriés.
 
