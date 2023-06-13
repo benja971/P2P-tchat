@@ -7,13 +7,18 @@
 		"start": "node src/app.js",
 		"dev": "nodemon src/app.js",
 		"prod": "pm2 start src/app.js --name p2p",
-		"update-git": "git reset --hard; git pull; pnpm i"
+		"update-git": "git reset --hard; git pull; pnpm i",
+		"libp2p": "node src/libp2p.js"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"@chainsafe/libp2p-noise": "^12.0.1",
+		"@libp2p/mplex": "^8.0.3",
+		"@libp2p/tcp": "^7.0.1",
 		"express": "^4.18.2",
+		"libp2p": "^0.45.5",
 		"peerjs": "^1.4.7"
 	},
 	"devDependencies": {

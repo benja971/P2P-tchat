@@ -409,3 +409,38 @@ sur le sequence webrtc U qi pour la flèche qui passe sur le signalisation serve
 tcheck orthographe
 
 varier le mot "pair" avec "noeud" ?
+
+changer report en article ?
+
+décentralisé != pair à pair (début)
+"tel qu'un server" (retirer)
+"faciliter les échanges "(retirer) s'arrêter à entre eux
+solutions possibleS (p3)
+il est souvent nécessaire (non: il est nécessaire)
+Expliciter NAT à la première utilisation
+arrêter le répéter NAT
+2.2 expliciter le fait que le relai ne sert qu'à établir la connexion (pas à échanger des données)
+
+(ip privée, port privé) -> (port publique)
+relais pas derriere un nat
+schema du nat hole punching (utilisation du relais pour établir la connexion)
+il faut parler du role du relais (nous permettre de percer le nat)
+les clients établissent une connexion avec le relai => "trou dans leur nat" => permet d'établir connexion directe
+le relai ne sert qu'à établir la connexion
+préciser ipv4
+
+
+mettre 2.4 en premier (c quoi le nat)
+puis pourquoi c'est chiant
+les tiers
+les solutions
+
+pourquoi les NATs nous pourrissent la vie (ils ne permettent que des communications sortantes)
+webSocket c'est pas bon car ca utilise un serveur web (donc pas de communication directe) ca ne resoud pas le probleme du nat
+car c'est simplement un process qui listen en interne en qui n'est pas accessible depuis l'exterieur
+
+parler du fait que j'ai lancé un serveur coturn 
+
+citations rfc ??
+
+https://webrtc.github.io/samples/src/content/peerconnection/trickle-ice/

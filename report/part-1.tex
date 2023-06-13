@@ -1,10 +1,41 @@
 \chapter{Contexte et Motivation}
 
 \paragraph{}
-Dans le domaine des communications réseaux pair à pair, il est souvent nécessaire d'établir une communication directe entre deux clients. Cependant, certains défis se 
-posent lors de la mise en place d'une telle communication, notamment en présence de dispositifs de traduction d'adresses réseau (NAT) qui limitent la connectivité directe entre les clients.
+Dans le domaine des communications réseaux pair à pair, il est nécessaire d'établir une communication directe entre deux clients. Cependant, certains défis se 
+posent lors de la mise en place d'une telle communication, notamment en présence de dispositifs de traduction d'adresses réseau (NAT pour "Network address translation") 
+qui limitent la connectivité directe entre les clients.
 
-\section{Problèmes liés aux dispositifs de traduction d'adresses réseau (le NAT)}
+
+\section{Les dispositifs de traduction d'adresses réseau (NAT)}
+
+\paragraph{}
+Le NAT est souvent utilisé dans les réseaux domestiques et les petites entreprises pour partager une seule adresse IP publique fournie par le fournisseur d'accès à Internet (FAI) entre plusieurs dispositifs du réseau local. 
+Plutôt que d'attribuer une adresse IP publique unique à chaque dispositif, le NAT attribue des adresses IP privées à chaque dispositif du réseau local. Lorsque ces dispositifs se connectent à Internet, le NAT traduit 
+automatiquement les adresses IP privées en adresse IP publique, permettant ainsi à ces dispositifs de communiquer avec des serveurs sur Internet.
+
+\paragraph{}
+Outre la conservation des adresses IP publiques, le NAT offre également une certaine forme de sécurité en masquant les adresses IP privées des dispositifs internes. Cela rend plus difficile pour les personnes 
+extérieures au réseau local de cibler directement ces dispositifs.
+
+\newpage
+\paragraph{}
+Cependant, le NAT introduit une limitation en ce qui concerne la connectivité entre les dispositifs du réseau local et les dispositifs externes. Étant donné que les adresses IP privées ne sont pas routables sur Internet, 
+les dispositifs internes d'un réseau NAT ne peuvent pas recevoir de connexions entrantes directement. Ils sont uniquement capables d'initier des connexions sortantes vers des serveurs externes. Cela signifie que les dispositifs 
+internes ne peuvent pas être facilement accessibles depuis Internet, sauf si des règles spécifiques de translation de port (port forwarding) sont configurées pour rediriger les connexions entrantes vers des dispositifs spécifiques.
+
+\paragraph{}
+En résumé, le NAT offre une solution efficace pour partager une adresse IP publique et protéger les dispositifs internes, mais il peut limiter la connectivité directe entre les clients du réseau local et les dispositifs externes.
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{assets/nat.png}
+\caption{Exemple de NAT}
+\end{figure}
+
+\newpage
+
+\section{Problèmes liés aux dispositifs de traduction d'adresses réseau (NAT)}
 
 \paragraph{}
 Les dispositifs de traduction d'adresses réseau (NAT) sont couramment utilisés pour partager une seule adresse IP publique entre plusieurs appareils d'un réseau local. Les NAT 
@@ -14,66 +45,44 @@ peuvent être trouvés dans de nombreux environnements, tels que les réseaux do
 Lorsqu'un client se trouve derrière un NAT, il reçoit une adresse IP privée non routable, qui n'est pas accessible depuis Internet. Cela rend difficile l'établissement 
 d'une communication directe avec d'autres clients qui se trouvent également derrière des NAT.
 
-\newpage
-\section{La nécessité d'un tiers pour faciliter la communication}
+\section{La nécessité d'un tiers pour faciliter l'établissement de la connexion}
 
 \paragraph{}
-Dans le contexte des communications pair à pair, il devient nécessaire d'avoir un tiers (un serveur intermédiaire) pour faciliter la communication entre les clients. 
-Ce tiers agit comme un relai en permettant aux clients de s'échanger des données même s'ils ne peuvent pas établir une connexion directe en raison des NAT.
+Dans le contexte des communications pair à pair, il devient nécessaire d'avoir un tiers (un serveur intermédiaire) pour faciliter l'établissement de la connexion entre les clients.
+Ce tiers agit comme un relai en permettant aux clients de s'échanger les informations nécessaires pour établir la connexion, même s'ils ne peuvent pas le faire directement en raison des NAT.
 
 \paragraph{}
-Le relai joue un rôle crucial en tant qu'entremetteur dans la communication entre les clients. Il permet aux clients de s'enregistrer et de découvrir les autres clients disponibles. 
-Lorsqu'un client souhaite établir une communication avec un autre client, le relai facilite l'établissement de la connexion en relayant les messages entre les clients.
-
-\section{Solutions existantes utilisant WebSockets et WebRTC}
-
-\paragraph{}
-Dans ce contexte, différentes solutions ont été développées pour permettre une communication efficace entre les clients. Deux technologies largement utilisées sont les WebSockets et WebRTC.
+Le relai joue un rôle crucial en tant qu'entremetteur dans le processus d'établissement de la connexion entre les clients. Lorsqu'un client souhaite établir une communication avec un autre client,
+il s'enregistre auprès du relai et fournit des informations telles que son adresse IP publique et son port. Le relai enregistre ces informations et les rend disponibles aux autres clients qui souhaitent
+se connecter à ce client spécifique.
 
 \paragraph{}
-Les WebSockets offrent une communication bidirectionnelle et persistante entre un navigateur Web et un serveur WebSocket. Ils permettent une communication en temps réel, avec une latence 
-réduite et une meilleure efficacité par rapport aux requêtes HTTP traditionnelles.
+Lorsqu'un client souhaite établir une connexion avec un autre client, il contacte le relai pour obtenir les informations de connexion de sa cible. Le relai transmet alors ces informations au client
+demandeur, lui permettant ainsi d'établir une connexion directe avec le client cible.
 
 \paragraph{}
-WebRTC, quant à lui, permet une communication peer-to-peer directe entre les navigateurs Web. Il prend en charge la communication audio, vidéo et de données en temps réel. 
-WebRTC permet aux clients d'établir des connexions directes, contournant ainsi les NAT et réduisant la latence.
+Il est important de noter que le rôle du relai se limite à faciliter l'établissement de la connexion en transmettant les informations nécessaires entre les clients. Une fois que la connexion directe
+est établie entre les clients, les données échangées ne passent pas par le relai, mais sont directement transmises entre les clients.
+
+\section{Solutions alternatives ou complémentaires pour contourner les limitations des dispositifs NAT}
 
 \paragraph{}
-Ces technologies offrent des solutions puissantes pour la communication en temps réel dans un réseau pair à pair. Cependant, leur utilisation nécessite la mise en place de mécanismes de 
-signalisation et de relais pour l'établissement des connexions et la transmission des données entre les clients.
+Bien que les dispositifs de traduction d'adresses réseau (NAT) puissent poser des défis en matière de connectivité directe entre les clients, il existe plusieurs solutions alternatives ou complémentaires pour contourner ces limitations. En voici quelques-unes :
 
-
-\section{Architecture générale d'un système réseau avec NAT}
-
-Dans un système réseau avec dispositifs de traduction d'adresses réseau (NAT), l'architecture générale implique plusieurs composants qui interagissent pour permettre la communication entre les clients. 
-Voici les principaux composants et leur rôle :
+\paragraph{Les protocoles TURN et STUN}
 
 \paragraph{}
-\textbf{Clients} : Les clients sont les dispositifs ou les applications qui souhaitent communiquer entre eux. Ils peuvent être des ordinateurs, des téléphones, des tablettes ou tout autre appareil 
-connecté au réseau. Les clients peuvent être situés derrière des NAT, ce qui limite leur capacité à établir une communication directe avec d'autres clients. 
+Le protocole STUN permet à un client d'obtenir des informations sur son adresse IP publique et le type de NAT qu'il traverse. Cela permet au client de comprendre comment il est connecté au réseau et d'adapter ses stratégies de 
+connexion en conséquence. STUN est généralement utilisé pour faciliter l'établissement de connexions pair à pair lorsque les clients sont derrière des NAT symétriques ou des pare-feu restrictifs.
 
 \paragraph{}
-\textbf{Serveur relai} : Le serveur relai agit en tant qu'entremetteur dans la communication entre les clients. Lorsqu'un client souhaite communiquer avec un autre client, il s'enregistre auprès 
-du serveur relai et communique ses informations de connexion. Le serveur relai joue un rôle clé dans la découverte des clients disponibles et facilite l'établissement de la communication en relayant les messages entre les clients.
+Le protocole TURN est utilisé lorsque les connexions directes ne sont pas possibles en raison de pare-feu ou de NAT restrictifs. TURN utilise un serveur intermédiaire (relais) auquel les clients se connectent pour acheminer 
+leurs données. Ce serveur intermédiaire agit comme un proxy et transfère les données entre les clients. Cela permet aux clients de communiquer même s'ils ne peuvent pas établir une connexion directe.
 
 \paragraph{}
-\textbf{Mécanisme de signalisation} : Le mécanisme de signalisation est utilisé pour l'échange d'informations entre les clients et le serveur relai. Il permet aux clients de s'enregistrer auprès du 
-serveur relai, de découvrir les autres clients disponibles et d'échanger les informations nécessaires pour établir une connexion. La signalisation peut se faire via des protocoles tels que le protocole 
-HTTP, les WebSockets ou d'autres protocoles personnalisés.
+Lorsqu'un client rencontre des difficultés pour établir une connexion directe en raison des restrictions du réseau, il peut utiliser STUN pour obtenir son adresse IP publique, puis essayer d'établir une connexion directe. 
+Si cela échoue, le client peut passer à l'utilisation de TURN pour acheminer les données via un serveur relais.
 
 \paragraph{}
-\textbf{Mécanisme de traversée NAT} : Étant donné que les clients peuvent être situés derrière des NAT, un mécanisme de traversée NAT est nécessaire pour permettre l'établissement de la communication directe entre 
-les clients. Ce mécanisme utilise des techniques telles que le protocole de traversée NAT (NAT traversal protocol) ou les techniques de trous de poinçonnage (hole punching) pour contourner les limitations des NAT 
-et permettre aux clients de se connecter directement.
-
-\paragraph{}
-\textbf{Protocoles de communication} : Une fois que la communication directe est établie entre les clients, les protocoles de communication tels que les WebSockets ou WebRTC peuvent être utilisés pour la 
-transmission des données. Ces protocoles permettent une communication bidirectionnelle en temps réel, avec une latence réduite et une efficacité améliorée par rapport aux protocoles traditionnels.
-
-\paragraph{}
-En combinant ces composants et mécanismes, l'architecture générale d'un système réseau avec NAT permet aux clients de surmonter les limitations de connectivité causées par les dispositifs de 
-traduction d'adresses réseau. Cela permet aux clients de communiquer efficacement même s'ils sont situés derrière des NAT, en utilisant des serveurs relais et des mécanismes de signalisation et de traversée NAT appropriés.
-
-
-
-
+Il est important de noter que l'utilisation de TURN peut entraîner une latence supplémentaire car les données doivent être acheminées via le serveur relais. De plus, l'utilisation d'un serveur relais peut entraîner des coûts supplémentaires, 
+notamment si vous utilisez un service cloud ou un fournisseur tiers pour héberger le serveur.
