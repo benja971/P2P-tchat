@@ -2,9 +2,8 @@
 
 \paragraph{}
 Dans le domaine des communications réseaux pair à pair, il est nécessaire d'établir une communication directe entre deux clients. Cependant, certains défis se 
-posent lors de la mise en place d'une telle communication, notamment en présence de dispositifs de traduction d'adresses réseau (NAT pour "Network address translation") 
-qui limitent la connectivité directe entre les clients.
-
+posent lors de la mise en place d'une telle communication, notamment en présence de dispositifs de traduction d'adresses réseau (NAT\footnote{Network address translation}) et de pare-feu. Ces dispositifs
+qui limitent la connectivité directe entre les clients. Dans ce rapport, nous allons examiner les défis liés à la mise en place d'une communication directe entre les clients,
 
 \section{Les dispositifs de traduction d'adresses réseau (NAT)}
 
@@ -35,11 +34,7 @@ En résumé, le NAT offre une solution efficace pour partager une adresse IP pub
 
 \newpage
 
-\section{Problèmes liés aux dispositifs de traduction d'adresses réseau (NAT)}
-
-\paragraph{}
-Les dispositifs de traduction d'adresses réseau (NAT) sont couramment utilisés pour partager une seule adresse IP publique entre plusieurs appareils d'un réseau local. Les NAT 
-peuvent être trouvés dans de nombreux environnements, tels que les réseaux domestiques, les réseaux d'entreprises et même les réseaux mobiles.
+\section{Problèmes liés aux dispositifs de traduction d'adresses réseau}
 
 \paragraph{}
 Lorsqu'un client se trouve derrière un NAT, il reçoit une adresse IP privée non routable, qui n'est pas accessible depuis Internet. Cela rend difficile l'établissement 
@@ -67,16 +62,16 @@ est établie entre les clients, les données échangées ne passent pas par le r
 \section{Solutions alternatives ou complémentaires pour contourner les limitations des dispositifs NAT}
 
 \paragraph{}
-Bien que les dispositifs de traduction d'adresses réseau (NAT) puissent poser des défis en matière de connectivité directe entre les clients, il existe plusieurs solutions alternatives ou complémentaires pour contourner ces limitations. En voici quelques-unes :
+Bien que les dispositifs de traduction d'adresses réseau puissent poser des défis en matière de connectivité directe entre les clients, il existe plusieurs solutions alternatives ou complémentaires pour contourner ces limitations. En voici quelques-unes :
 
 \paragraph{Les protocoles TURN et STUN}
 
 \paragraph{}
-Le protocole STUN permet à un client d'obtenir des informations sur son adresse IP publique et le type de NAT qu'il traverse. Cela permet au client de comprendre comment il est connecté au réseau et d'adapter ses stratégies de 
+Le protocole STUN\footnote{Session Traversal Utilities for NAT} permet à un client d'obtenir des informations sur son adresse IP publique et le type de NAT qu'il traverse. Cela permet au client de comprendre comment il est connecté au réseau et d'adapter ses stratégies de 
 connexion en conséquence. STUN est généralement utilisé pour faciliter l'établissement de connexions pair à pair lorsque les clients sont derrière des NAT symétriques ou des pare-feu restrictifs.
 
 \paragraph{}
-Le protocole TURN est utilisé lorsque les connexions directes ne sont pas possibles en raison de pare-feu ou de NAT restrictifs. TURN utilise un serveur intermédiaire (relais) auquel les clients se connectent pour acheminer 
+Le protocole TURN\footnote{Traversal Using Relays around NAT} est utilisé lorsque les connexions directes ne sont pas possibles en raison de pare-feu ou de NAT restrictifs. TURN utilise un serveur intermédiaire (relais) auquel les clients se connectent pour acheminer 
 leurs données. Ce serveur intermédiaire agit comme un proxy et transfère les données entre les clients. Cela permet aux clients de communiquer même s'ils ne peuvent pas établir une connexion directe.
 
 \paragraph{}

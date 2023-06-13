@@ -2,7 +2,7 @@
 
 \section{Avec WebRTC}
 
-L'utilisation de WebRTC est l'une des solutions possibles pour mettre en place une communication textuelle en temps réel entre deux clients dans un réseau pair à pair.
+L'utilisation de WebRTC\footnote{Web Real-Time Communication} est l'une des solutions possibles pour mettre en place une communication textuelle en temps réel entre deux clients dans un réseau pair à pair.
 Pour établir cette connexion, les étapes suivantes peuvent être suivies :
 
 \paragraph{Initialisation d'une pair et récupération de son UUID}
@@ -30,7 +30,7 @@ contournant ainsi les NAT et réduisant la latence. Le tou grace à l'utilisatio
 
 \paragraph{}
 Pour pouvoir fonctionner, WebRTC utilise le protocole ICE (Interactive Connectivity Establishment) qui permet de contourner les limitations des NAT et de trouver le chemin le plus efficace pour établir une connexion entre les deux pairs. 
-Ce protocole utilise les techniques de "trou de poinçonnage" (hole punching) pour contourner les limitations des NAT. Et ce grace grace à un serveur STUN (Session Traversal Utilities for NAT) qui permet de récupérer l'adresse IP publique et le port du client.
+Ce protocole utilise les techniques de "trou de poinçonnage" (hole punching) pour contourner les limitations des NAT. Et ce grace grace à un serveur STUN qui permet de récupérer l'adresse IP publique et le port du client.
 Une fois que les deux pairs ont récupéré leurs adresses publiques, ils peuvent s'échanger leurs adresses et ports privés. Cela permet aux deux pairs de s'envoyer des paquets directement sans passer par le serveur STUN. 
 
 \paragraph{}
@@ -47,11 +47,11 @@ En utilisant cet outil, j'ai pu vérifier que les adresses IP et ports récupér
 \section{Avec libp2p}
 
 \paragraph{}
-Libp2p, (pour "bibliothèque peer-to-peer") est un cadre de mise en réseau peer-to-peer ( P2P ) qui permet le développement des applications P2P. Il se compose d'une collection de protocoles, de spécifications et bibliothèques qui 
+Libp2p\footnote{https://libp2p.io/}, (pour "bibliothèque peer-to-peer") est un cadre de mise en réseau peer-to-peer (P2P) qui permet le développement des applications P2P. Il se compose d'une collection de protocoles, de spécifications et bibliothèques qui 
 facilitent la communication P2P entre les participants au réseau, appelées "pairs". Libp2p fournit une interface de programmation d'application (API) pour les applications P2P, ainsi que des implémentations de ces protocoles.
 
 \paragraph{}
-Dans un premier temps développé pour le projet IPFS, libp2p, a au fil du temps été mit à jour et amélioré pour être utilisé dans d'autres projets. Il est aujourd'hui réputé pour sa modularité, sa sécurité et sa résilience. C'est un outil
+Dans un premier temps développé pour le projet IPFS\footnote{InterPlanetary File System}, libp2p, a au fil du temps été mit à jour et amélioré pour être utilisé dans d'autres projets. Il est aujourd'hui réputé pour sa modularité, sa sécurité et sa résilience. C'est un outil
 puissant pour effectuer des tâches comme le "trou de poinçonnage" (hole punching), la distribution et la diffusion de contenu, la découverte de pairs, la communication sécurisée, etc. 
 
 \paragraph{}
@@ -70,13 +70,13 @@ Les nœuds utilisent des mécanismes de découverte pour trouver d'autres pairs 
 Une fois que les nœuds ont découvert d'autres pairs, ils s'échangent mutuellement leurs adresses multiadresses. Une adresse multiadresse est une adresse qui encapsule différentes informations, telles que l'adresse IP, le port, les protocoles pris en charge, etc.
 
 \paragraph{Négociation des protocoles}
-Les nœuds négocient les protocoles qu'ils souhaitent utiliser pour la communication. Cela peut inclure des protocoles spécifiques à une application ou des protocoles de base fournis par Libp2p, tels que TCP, WebSockets, etc.
+Les nœuds négocient les protocoles qu'ils souhaitent utiliser pour la communication. Cela peut inclure des protocoles spécifiques à une application ou des protocoles de base fournis par Libp2p, tels que TCP\footnote{Transmission Control Protocol}, WebSockets, etc.
 
 \paragraph{Établissement de la connexion}
 Les nœuds utilisent les adresses multiadresses échangées précédemment pour établir une connexion directe. Cela peut impliquer l'établissement d'une connexion TCP, l'établissement d'une connexion WebSockets, ou d'autres mécanismes de transport pris en charge.
 
 \paragraph{Handshake sécurisé}  
-Une fois la connexion établie, les nœuds peuvent effectuer un handshake sécurisé pour s'authentifier mutuellement et échanger des clés de chiffrement. Cela peut se faire en utilisant des protocoles de chiffrement tels que TLS.
+Une fois la connexion établie, les nœuds peuvent effectuer un handshake sécurisé pour s'authentifier mutuellement et échanger des clés de chiffrement. Cela peut se faire en utilisant des protocoles de chiffrement tels que TLS\footnote{Transport Layer Security}.
 
 \paragraph{Communication }
 Une fois que la connexion est établie et sécurisée, les nœuds peuvent commencer à échanger des données selon les protocoles applicatifs spécifiques. Cela peut impliquer l'utilisation de protocoles de haut niveau pour la transmission des messages, le partage de fichiers, etc.
@@ -85,7 +85,7 @@ Une fois que la connexion est établie et sécurisée, les nœuds peuvent commen
 \section{Le cas de WebSockets}
 
 \paragraph{}
-Les WebSockets sont un protocole de communication bidirectionnel qui permet d'établir une connexion persistante entre un client et un serveur. Contrairement au protocole HTTP, qui est un protocole de communication unidirectionnel, 
+Les WebSockets sont un protocole de communication bidirectionnel qui permet d'établir une connexion persistante entre un client et un serveur. Contrairement au protocole HTTP\footnote{Hypertext Transfer Protocol}, qui est un protocole de communication unidirectionnel, 
 les WebSockets permettent aux clients et aux serveurs de s'envoyer des données à tout moment, sans avoir à attendre une requête du client. 
 
 \paragraph{}
